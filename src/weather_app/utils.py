@@ -31,3 +31,18 @@ def get_downfall(weather_info):
         "snow_3h": weather_info.get('snow', {}).get('3h')
     }
     return downfall_info
+
+# Print functions
+
+def print_all_weather_info(weather_info):
+    pass
+
+def print_short_summary(weather_info):
+    pass
+
+def print_temp(weather_info):
+    pass
+
+def print_downfall(weather_info):
+    pass
+
