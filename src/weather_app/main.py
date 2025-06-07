@@ -4,20 +4,12 @@ from gui import *
 
 
 def main():
-    print("Hello! Insert below what city you want weather info on")
-    cityName = input()
-    print("Fetching...")
-    weather_info = get_weather_data(cityName=cityName)
+    testCity()
+    testLongiLat()
 
-    print("")
-    if weather_info:
-        print(f"City: {weather_info['name']}")
-        print(f"Temperature: {weather_info['main']['temp']} C degrees")
-        print(f"Description: {weather_info['weather'][0]['description'].capitalize()}")
-        print(f"Wind speed: {weather_info['wind']['speed']} m/s")
-    else:
-        print("Failed, please try again later")
 
+def testLongiLat():
+    # Test for lat and longi
     print("Hello! Insert below what latitude and longitude you want weather info on")
     # 59.33, 18.07 for stockholm
     print("Latitude: ")
@@ -28,14 +20,18 @@ def main():
     weather_info = get_weather_data(latitude=lati, longitude=longi)
 
     print("")
-    if weather_info:
-        print(f"City: {weather_info['name']}")
-        print(f"Temperature: {weather_info['main']['temp']} C degrees")
-        print(f"Description: {weather_info['weather'][0]['description'].capitalize()}")
-        print(f"Wind speed: {weather_info['wind']['speed']} m/s")
-    else:
-        print("Failed, please try again later")
+    print_short_summary(weather_info)
 
+def testCity():
+    # Test for city
+    print("Hello! Insert below what city you want weather info on")
+    cityName = input()
+    print("Fetching...")
+    weather_info = get_weather_data(cityName=cityName)
+
+    print("")
+    print_short_summary(weather_info)
+    print("")
 
 if __name__ == "__main__":
     main()

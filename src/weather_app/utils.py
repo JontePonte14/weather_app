@@ -38,7 +38,13 @@ def print_all_weather_info(weather_info):
     pass
 
 def print_short_summary(weather_info):
-    pass
+    if weather_info:
+        print(f"City: {weather_info['name']}")
+        print(f"Temperature: {weather_info['main']['temp']} C degrees")
+        print(f"Description: {weather_info['weather'][0]['description'].capitalize()}")
+        print(f"Wind speed: {weather_info['wind']['speed']} m/s")
+    else:
+        print("Failed, please try again later")
 
 def print_temp(weather_info):
     pass
