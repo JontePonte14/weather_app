@@ -39,11 +39,11 @@ def get_downfall(weather_info):
 
 def get_short_summary(weather_info):
     short_summary = {
-        "city" : weather_info['name'],
-        "temp" : weather_info['main']['temp'],
-        "description" : weather_info['weather'][0]['description'].capitalize(),
-        "windSpeed" : weather_info['wind']['speed']
-
+        "city": weather_info['name'],
+        "temp": weather_info['main']['temp'],
+        "description": weather_info['weather'][0]['description'].capitalize(),
+        "windSpeed": weather_info['wind']['speed'],
+        "clouds": weather_info['clouds']['all']
     }
     return short_summary
 
@@ -62,16 +62,14 @@ def print_short_summary(weather_info):
     summary = get_short_summary(weather_info)
 
     if summary:
-        if (summary.get('city') == ''):
-            print(f"City: No city")
-        else:
-            print(f"City: {summary.get('city')}")
+        city = summary.get('city', '')
+        print(f"City: {city or 'No city'}")
         print(f"Temperature: {summary.get('temp')} °C")
         print(f"Description: {summary.get('description')}")
         print(f"Wind speed: {summary.get('windSpeed')} m/s")
+        print(f"Cloud coverage: {summary.get('clouds')}%")
     else:
         print("Failed, please try again later")
-
 
 def print_temp(weather_info):
     summary = get_temp(weather_info)
@@ -96,15 +94,6 @@ def print_downfall(weather_info):
         print(f"Snow 3h: {summary.get('snow_3h')}")
     else:
         print("Failed, please try again later")
-
-def print_clouds(weather_info):
-    cloudiness = get_clouds(weather_info)
-
-    if cloudiness is not None:
-        print(f"Cloud coverage: {cloudiness}%")
-    else:
-        print("Failed to retrieve cloud information.")
-
 
 def print_wind_info(weather_info):
     summary = get_wind_info(weather_info)
@@ -134,9 +123,6 @@ def print_all_weather_info(weather_info):
 
     print("\n--- Wind Details ---")
     print_wind_info(weather_info)
-
-    print("\n--- Cloud Coverage ---")
-    print_clouds(weather_info)
 
     print("\n--- Precipitation ---")
     print_downfall(weather_info)

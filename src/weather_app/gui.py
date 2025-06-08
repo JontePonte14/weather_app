@@ -1,6 +1,6 @@
 import tkinter as tk
 from weather_app.api import get_weather_data
-from weather_app.utils import print_short_summary
+from weather_app.utils import *
 
 def start_gui():
     root = tk.Tk()
@@ -32,11 +32,24 @@ def insert_data_boxes(root):
     }
 
 def buttons(root, entries):
+    # Buttons for checking city or coords weather
     buttonCity = tk.Button(root, text="Find weather for city", 
                            command=lambda: handle_city_search(entries["city"])).grid(row = 6, column = 0 )
     buttonCord = tk.Button(root, text="Find weather for coordinates", 
                            command=lambda: handle_coords_search(entries["lat"], 
                                                                 entries["lon"])).grid(row = 7, column = 0)
+    # Buttons to change what information to display
+    buttonSummary = tk.Button(root, text="Short summary")
+    buttonSummary.grid(row=4, column=2)
+
+    buttonTemp = tk.Button(root, text='Temperature')
+    buttonTemp.grid(row=5, column=2)
+
+    buttonWind = tk.Button(root, text='Wind')
+    buttonWind.grid(row=6, column=2)
+
+    buttonCloud = tk.Button(root, text='Cloud')
+    buttonCloud.grid(row=7, column=2)
 
 def handle_city_search(city_entry):
     city = city_entry.get()
