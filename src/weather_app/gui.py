@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import font
 from api import get_weather_data
 from api import get_weather_icon
 from utils import *
@@ -14,7 +15,7 @@ state = {
 
 def start_gui():
     root = tk.Tk()
-    root.title("Weather App")
+    root.title("Weather Finder")
     root.geometry("900x400")
     entries = insert_data_boxes(root)
     buttons(root, entries)
@@ -31,8 +32,9 @@ def start_gui():
     root.mainloop()
 
 def insert_data_boxes(root):
-    tk.Label(root, text = 'Weather Finder').grid(row = 0, column= 3)
-    tk.Label(root, text = '').grid(row = 1)
+    tk.Label(root, text='Weather Finder', font=("Helvetica", 18, "bold")).grid(row=0, column=3)    
+    #tk.Label(root, text = 'Weather Finder').grid(row = 0, column= 3)
+    #tk.Label(root, text = '').grid(row = 1)
     
     tk.Label(root, text='Enter City').grid(row = 2)
     tk.Label(root, text='Enter Latitude').grid(row = 4)
