@@ -8,7 +8,7 @@ A GUI-based weather application built with `tkinter`. It uses the [OpenWeatherMa
    ```bash
    git clone <your-repo-url>
    cd <your-project-directory>
-2. Create a `.env` file from `.env.example` and insert your API key. {[text](https://openweathermap.org/api)}
+2. Create a `.env` file from `.env.example` and insert your API key. [Openweather website](https://openweathermap.org/api)
 3. Install dependencies  
    ```bash
    pip install -r requirements.txt
