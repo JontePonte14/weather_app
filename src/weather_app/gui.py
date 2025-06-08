@@ -141,13 +141,24 @@ def view_downfall(weather_info, root):
         print(f"Error: No weather data found")
 
 def info_display(root, info, option):
+    text_general = tk.Text(root, height=50, width=40)
+    text_info = tk.Text(root, height=50, width=40)
+
     if (option == "clear"):
+        print("Clearing text boxes")
         ## clear text and returns
+        text_general.delete("1.0", tk.END)
+        text_info.delete("1.0", tk.END)
         return
     # Rest of the options 
     if (state["weather_data"]):
+        
         general_info = get_general_info(state["weather_data"])
         # Draw the following always
+        for i in range(3):
+            text_general.insert(tk.END, f"Country: {general_info["country"]}")
+            text_general.insert(tk.END, f"City: {general_info["city"]}")
+            text_general.insert(tk.END, f"Coordinates: {general_info["latitude"]}, {general_info["longitude"]}")
         # Country
         # City 
         # Coordinates

@@ -11,11 +11,14 @@ def get_temp(weather_info):
 
 def get_general_info(weather_info):
     general_info = {
-        "description" : weather_info['weather'][0]['description'],  # More detail (e.g., "light rain")
-        "country" : weather_info['sys']['country'],                 # Country
-        "city" : weather_info['name']                               # City
+        "description": weather_info['weather'][0]['description'],  # More detail (e.g., "light rain")
+        "country": weather_info['sys']['country'],                 # Country
+        "city": weather_info['name'],                              # City
+        "latitude": weather_info['coord']['lat'],                  # Latitude
+        "longitude": weather_info['coord']['lon']                  # Longitude
     }
     return general_info
+
 
 def get_wind_info(weather_info):
     wind_info = {
