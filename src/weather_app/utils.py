@@ -54,10 +54,6 @@ def missing_data(weather_info):
         return False 
     
 # Print functions
-
-def print_all_weather_info(weather_info):
-    pass
-
 def print_short_summary(weather_info):
     summary = get_short_summary(weather_info)
 
