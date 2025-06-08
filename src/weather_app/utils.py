@@ -72,17 +72,34 @@ def print_short_summary(weather_info):
     else:
         print("Failed, please try again later")
 
-    # if weather_info:
-    #     print(f"City: {weather_info['name']}")
-    #     print(f"Temperature: {weather_info['main']['temp']} C degrees")
-    #     print(f"Description: {weather_info['weather'][0]['description'].capitalize()}")
-    #     print(f"Wind speed: {weather_info['wind']['speed']} m/s")
-    # else:
-    #     print("Failed, please try again later")
 
 def print_temp(weather_info):
-    pass
+    summary = get_temp(weather_info)
+
+    if summary:
+        print(f"Temperature: {summary.get('temp')}")
+        print(f"Feels like: {summary.get('feels_like')}")
+        print(f"Min. temperature: {summary.get('temp_min')}")
+        print(f"Max. temperature: {summary.get('temp_max')}")
+        print(f"Pressure: {summary.get('pressure')}")
+        print(f"humidity: {summary.get('humidity')}")
+    else:
+        print("Failed, please try again later")
 
 def print_downfall(weather_info):
+    summary = get_downfall(weather_info)
+
+    if summary:
+        print(f"Rain 1h: {summary.get('rain_1h')}")
+        print(f"Rain 3h: {summary.get('rain_3h')}")
+        print(f"Snow 1h: {summary.get('snow_1h')}")
+        print(f"Snow 3h: {summary.get('snow_3h')}")
+    else:
+        print("Failed, please try again later")
+
+def print_clouds(weather_info):
+    pass
+
+def print_wind_info(weather_info):
     pass
 
