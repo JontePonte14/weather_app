@@ -41,22 +41,27 @@ def buttons(root, entries):
 def handle_city_search(city_entry):
     city = city_entry.get()
     if not city:
-        print("No city entered")
+        print("Error: No city entered")
         return
     print(f"Printing weather info for: {city}")
     weather_info = get_weather_data(city)
     if (weather_info):
         print_short_summary(weather_info)
     else:
-        print(f"No weather data found")
+        print(f"Error: No weather data found")
     
 
 
 def handle_coords_search(lat_entry, lon_entry):
-    lat = float(lat_entry.get())
-    lon = float(lon_entry.get())
+    try:
+        lat = float(lat_entry.get())
+        lon = float(lon_entry.get())
+    except ValueError:
+        print("Error: Latitude and Longitude must be valid numbers.")
+        return
+    
     if not -90 <= lat <= 90 and -180 <= lon <= 180:
-        print("Invalid latitude and/or longitude")
+        print("Error: Invalid range for latitude and/or longitude")
         return
     
     print(f'Printing weather info for lat: {lat}, lon: {lon}')
@@ -64,7 +69,7 @@ def handle_coords_search(lat_entry, lon_entry):
     if (weather_info):
         print_short_summary(weather_info)
     else:
-        print(f"No weather data found")
+        print(f"Error: No weather data found")
     pass
 
 
