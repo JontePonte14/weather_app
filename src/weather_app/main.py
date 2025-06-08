@@ -1,6 +1,4 @@
-from utils import *
-from api import *
-from gui import *
+from weather_app.gui import *
 
 def main():
     start_gui()

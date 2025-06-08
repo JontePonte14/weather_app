@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import font
-from api import get_weather_data
-from api import get_weather_icon
-from utils import *
+from weather_app.api import get_weather_data
+from weather_app.api import get_weather_icon
+from weather_app.utils import *
 
 state = {
     "weather_data": None,
