@@ -1,11 +1,14 @@
 import tkinter as tk
 from weather_app.api import get_weather_data
+from weather_app.api import get_weather_icon
 from weather_app.utils import *
 
 state = {
     "weather_data": None,
     "text_general": None,
-    "text_info" : None
+    "text_info" : None,
+    "iconLabel" : None,
+    "iconCache" : {}
               }
 
 def start_gui():
@@ -23,10 +26,6 @@ def start_gui():
     text_info.grid(row=9, column=4, rowspan=5)
     state["text_general"] = text_general
     state["text_info"] = text_info
-
-    if (state["weather_data"]):
-        iconCode = state["weather_data"]['weather'][0]['icon']
-
 
     root.mainloop()
 
@@ -122,15 +121,31 @@ def handle_coords_search(lat_entry, lon_entry, root):
         print(f"Error: No weather data found")
 
 def view_short_summary(weather_info, root):
-    if (weather_info):
-        # Should also draw icon, since this will be called everytime for a new
-        # function
+    if weather_info:
+        iconCode = weather_info['weather'][0]['icon']
 
-        print(f"Printing out short summary:")
+        # Try to get from cache or download
+        photo = state["iconCache"].get(iconCode)
+        if not photo:
+            photo = get_weather_icon(iconCode)
+            if photo:
+                state["iconCache"][iconCode] = photo
+
+        # Display the icon if we got one
+        if photo:
+            # Destroy old icon label if it exists
+            if state.get('iconLabel'):
+                state['iconLabel'].destroy()
+
+            state['iconLabel'] = tk.Label(root, image=photo)
+            state['iconLabel'].image = photo
+            state['iconLabel'].grid(row=4, column=4, rowspan=4, columnspan=4)
+
+        print("Printing out short summary:")
         info_display(root, get_short_summary(weather_info), "summary")
         print_short_summary(weather_info)
     else:
-        print(f"Error: No weather data found")
+        print("Error: No weather data found")
 
 def view_temp(weather_info, root):
     if (weather_info):
@@ -163,6 +178,7 @@ def info_display(root, info, option):
         state["text_general"].delete("1.0", tk.END)
         state["text_info"].delete("1.0", tk.END)
         state["weather_data"] = None
+        state["iconLabel"] = None
         return
     # Rest of the options 
     if (state["weather_data"]):

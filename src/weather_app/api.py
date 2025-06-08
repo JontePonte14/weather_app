@@ -39,10 +39,10 @@ def get_weather_data(cityName=None, latitude=None, longitude=None):
     return None
 
 # Fetch the weather info icon for the giving city/coords
-# Input:
-# Output: 
-def get_weather_icon_code(iconCode):
-    icon_code_url = "{iconCode}@2x.png"
+# Input: Icon code - string
+# Output: Photo - imageTK / or None if failed
+def get_weather_icon(iconCode):
+    icon_code_url = f"{iconCode}@2x.png"
     url = f"{icon_url}{icon_code_url}"
 
     response = requests.get(url)
@@ -54,6 +54,4 @@ def get_weather_icon_code(iconCode):
         return photo
     else:
         print("Failed to download weather icon photo")
-
-
-    pass
+    return None
