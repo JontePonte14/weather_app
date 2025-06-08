@@ -4,15 +4,25 @@ from weather_app.utils import *
 
 state = {
     "weather_data": None,
-    "output_text": None
+    "text_general": None,
+    "text_info" : None
               }
 
 def start_gui():
     root = tk.Tk()
     root.title("Weather App")
-    root.geometry("800x400")
+    root.geometry("900x400")
     entries = insert_data_boxes(root)
     buttons(root, entries)
+
+    # Creates text boxes and stores them globally so they
+    # can be editet with other functions
+    text_general = tk.Text(root, height=4, width=22)
+    text_general.grid(row=2, column=3, rowspan=4, columnspan=1)
+    text_info = tk.Text(root, height=10, width=40)
+    text_info.grid(row=9, column=4, rowspan=5)
+    state["text_general"] = text_general
+    state["text_info"] = text_info
 
     root.mainloop()
 
@@ -147,21 +157,18 @@ def info_display(root, info, option):
     if (option == "clear"):
         print("Clearing text boxes")
         ## clear text and returns
-        text_general.delete("1.0", tk.END)
-        text_info.delete("1.0", tk.END)
+        state["text_general"].delete("1.0", tk.END)
+        state["text_info"].delete("1.0", tk.END)
         return
     # Rest of the options 
     if (state["weather_data"]):
-        
         general_info = get_general_info(state["weather_data"])
-        # Draw the following always
-        for i in range(3):
-            text_general.insert(tk.END, f"Country: {general_info["country"]}")
-            text_general.insert(tk.END, f"City: {general_info["city"]}")
-            text_general.insert(tk.END, f"Coordinates: {general_info["latitude"]}, {general_info["longitude"]}")
-        # Country
-        # City 
-        # Coordinates
+
+        # Draw the following always. Country, city and coordinates
+        state["text_general"].insert(tk.END, f"Country: {general_info['country']} \n")
+        state["text_general"].insert(tk.END, f"City: {general_info['city']} \n")
+        state["text_general"].insert(tk.END, f"Latitude: {general_info['latitude']} \n")
+        state["text_general"].insert(tk.END, f"Longitude: {general_info['longitude']} \n")
 
         if (option == "summary"):
             return
