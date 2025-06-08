@@ -1,7 +1,8 @@
 import tkinter as tk
-from weather_app.api import get_weather_data
-from weather_app.api import get_weather_icon
-from weather_app.utils import *
+from tkinter import messagebox
+from api import get_weather_data
+from api import get_weather_icon
+from utils import *
 
 state = {
     "weather_data": None,
@@ -87,6 +88,7 @@ def handle_city_search(city_entry, root):
     city = city_entry.get()
     if not city:
         print("Error: No city entered")
+        messagebox.showerror("Error", "No city entered.")
         return
     print(f"Printing weather info for: {city}")
     weather_info = get_weather_data(city)
@@ -96,6 +98,7 @@ def handle_city_search(city_entry, root):
         view_short_summary(weather_info, root)
     else:
         print(f"Error: No weather data found")
+        messagebox.showerror("Error", "No weather data found.")
     
 
 
@@ -105,10 +108,12 @@ def handle_coords_search(lat_entry, lon_entry, root):
         lon = float(lon_entry.get())
     except ValueError:
         print("Error: Latitude and Longitude must be valid numbers.")
+        messagebox("Error", "Latitude and Longitude must be valid numbers.")
         return
     
     if not -90 <= lat <= 90 and -180 <= lon <= 180:
         print("Error: Invalid range for latitude and/or longitude")
+        messagebox("Error", "Invalid range for latitude and/or longitude.")
         return
     
     print(f'Printing weather info for lat: {lat}, lon: {lon}')
@@ -119,6 +124,7 @@ def handle_coords_search(lat_entry, lon_entry, root):
         view_short_summary(weather_info, root)
     else:
         print(f"Error: No weather data found")
+        messagebox.showerror("Error", "No weather data found.")
 
 def view_short_summary(weather_info, root):
     if weather_info:
@@ -146,6 +152,7 @@ def view_short_summary(weather_info, root):
         print_short_summary(weather_info)
     else:
         print("Error: No weather data found")
+        messagebox.showerror("Error", "No weather data found.")
 
 def view_temp(weather_info, root):
     if (weather_info):
@@ -154,6 +161,7 @@ def view_temp(weather_info, root):
         print_temp(weather_info)
     else:
         print(f"Error: No weather data found")
+        messagebox.showerror("Error", "No weather data found.")
 
 def view_wind(weather_info, root):
     if (weather_info):
@@ -162,6 +170,7 @@ def view_wind(weather_info, root):
         print_wind_info(weather_info)
     else:
         print(f"Error: No weather data found")
+        messagebox.showerror("Error", "No weather data found.")
 
 def view_downfall(weather_info, root):
     if (weather_info):
@@ -170,6 +179,7 @@ def view_downfall(weather_info, root):
         print_downfall(weather_info)
     else:
         print(f"Error: No weather data found")
+        messagebox.showerror("Error", "No weather data found.")
 
 def info_display(root, info, option):
     if (option == "clear"):
@@ -225,10 +235,4 @@ def info_display(root, info, option):
             return 
     else:
         print(f"Error: No weather data found")
-
-def error_messeage(root):
-    pass
-
-def update_text(root):
-    pass
-
+        messagebox.showerror("Error", "No weather data found.")
