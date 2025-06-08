@@ -1,12 +1,19 @@
+# For doing api calls
 import requests
+# For fetching weather picture
+from PIL import Image, ImageTk
+import io
+# For api key
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 API_key = os.getenv("OPENWEATHER_API_KEY")
 
 base_url = "https://api.openweathermap.org/data/2.5/weather"
+icon_url =     icon_url = f"http://openweathermap.org/img/wn/"
 
-# Fetch the weather info for the giving city
+# Fetch the weather info for the giving city/coords
 # Input: string name of city
 # Output: json with info / or None if fail
 def get_weather_data(cityName=None, latitude=None, longitude=None):
@@ -30,3 +37,23 @@ def get_weather_data(cityName=None, latitude=None, longitude=None):
         print(f"Failed to retrieve data. Status code: {response.status_code}")
     
     return None
+
+# Fetch the weather info icon for the giving city/coords
+# Input:
+# Output: 
+def get_weather_icon_code(iconCode):
+    icon_code_url = "{iconCode}@2x.png"
+    url = f"{icon_url}{icon_code_url}"
+
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        img_data = response.content
+        image = Image.open(io.BytesIO(img_data))
+        photo = ImageTk.PhotoImage(image)
+        return photo
+    else:
+        print("Failed to download weather icon photo")
+
+
+    pass

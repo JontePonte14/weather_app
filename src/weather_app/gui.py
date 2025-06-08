@@ -24,6 +24,10 @@ def start_gui():
     state["text_general"] = text_general
     state["text_info"] = text_info
 
+    if (state["weather_data"]):
+        iconCode = state["weather_data"]['weather'][0]['icon']
+
+
     root.mainloop()
 
 def insert_data_boxes(root):
@@ -75,7 +79,7 @@ def buttons(root, entries):
                            command=lambda: view_downfall(state["weather_data"], root))
     buttonDownfall.grid(row=r+3, column=c)
 
-    buttonClearText = tk.Button(root, text="Clear text", width=20,
+    buttonClearText = tk.Button(root, text="Clear data", width=20,
                             command=lambda: info_display(root, None, "clear"))
     buttonClearText.grid(row=r+4, column=c)
 
@@ -158,6 +162,7 @@ def info_display(root, info, option):
         ## clear text and returns
         state["text_general"].delete("1.0", tk.END)
         state["text_info"].delete("1.0", tk.END)
+        state["weather_data"] = None
         return
     # Rest of the options 
     if (state["weather_data"]):
@@ -166,16 +171,38 @@ def info_display(root, info, option):
         # Draw the following always. Country, city and coordinates
         state["text_general"].insert(tk.END, f"Country: {general_info['country']} \n")
         state["text_general"].insert(tk.END, f"City: {general_info['city']} \n")
-        state["text_general"].insert(tk.END, f"Latitude: {general_info['latitude']} \n")
-        state["text_general"].insert(tk.END, f"Longitude: {general_info['longitude']} \n")
-
+        state["text_general"].insert(tk.END, f"Latitude: {general_info['latitude']}° \n")
+        state["text_general"].insert(tk.END, f"Longitude: {general_info['longitude']}° \n")
+        
+        state["text_info"].delete("1.0", tk.END) # Remove old text first always
         if (option == "summary"):
+            state["text_info"].insert(tk.END, f"Description: {info.get('description')}\n")
+            state["text_info"].insert(tk.END, f"Temperature: {info.get('temp')} °C\n")
+            state["text_info"].insert(tk.END, f"Wind speed: {info.get('windSpeed')} m/s\n")
+            state["text_info"].insert(tk.END, f"Cloud coverage: {info.get('clouds')}%\n")
             return
         elif (option == "temp"):
+            state["text_info"].insert(tk.END, (f"Temperature: {info.get('temp')}°C\n"))
+            state["text_info"].insert(tk.END, f"Feels like: {info.get('feels_like')}°C\n")
+            state["text_info"].insert(tk.END, f"Min. temperature: {info.get('temp_min')}°C\n")
+            state["text_info"].insert(tk.END, f"Max. temperature: {info.get('temp_max')}°C\n")
+            state["text_info"].insert(tk.END, f"Pressure: {info.get('pressure')} hPa\n")
+            state["text_info"].insert(tk.END, f"Humidity: {info.get('humidity')}%\n")
             return
         elif (option == "wind"):
+            state["text_info"].insert(tk.END, f"Wind speed: {info.get('speed')} m/s \n")
+            state["text_info"].insert(tk.END, f"Direction: {info.get('direction')}°\n")
+            gust = info.get('gust')
+            if gust is not None:
+                 state["text_info"].insert(tk.END, f"Gusts: {gust} m/s\n")
+            else:
+                 state["text_info"].insert(tk.END, "Gust data: not available")
             return
         elif (option == "downfall"):
+            state["text_info"].insert(tk.END,f"Rain 1h: {info.get('rain_1h')}\n")
+            state["text_info"].insert(tk.END,f"Rain 3h: {info.get('rain_3h')}\n")
+            state["text_info"].insert(tk.END,f"Snow 1h: {info.get('snow_1h')}\n")
+            state["text_info"].insert(tk.END,f"Snow 3h: {info.get('snow_3h')}\n")
             return
         else:
             print(f'Error: No valid option')
