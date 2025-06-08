@@ -9,8 +9,13 @@ def get_temp(weather_info):
     }
     return temp
 
-def get_description(weather_info):
-    return weather_info['weather'][0]['description'] # More detail (e.g., "light rain")
+def get_general_info(weather_info):
+    general_info = {
+        "description" : weather_info['weather'][0]['description'],  # More detail (e.g., "light rain")
+        "country" : weather_info['sys']['country'],                 # Country
+        "city" : weather_info['name']                               # City
+    }
+    return general_info
 
 def get_wind_info(weather_info):
     wind_info = {
@@ -32,19 +37,48 @@ def get_downfall(weather_info):
     }
     return downfall_info
 
+def get_short_summary(weather_info):
+    short_summary = {
+        "city" : weather_info['name'],
+        "temp" : weather_info['main']['temp'],
+        "description" : weather_info['weather'][0]['description'].capitalize(),
+        "windSpeed" : weather_info['wind']['speed']
+
+    }
+    return short_summary
+
+def missing_data(weather_info):
+    if (weather_info == None):
+        return True
+    else:
+        return False 
+    
 # Print functions
 
 def print_all_weather_info(weather_info):
     pass
 
 def print_short_summary(weather_info):
-    if weather_info:
-        print(f"City: {weather_info['name']}")
-        print(f"Temperature: {weather_info['main']['temp']} C degrees")
-        print(f"Description: {weather_info['weather'][0]['description'].capitalize()}")
-        print(f"Wind speed: {weather_info['wind']['speed']} m/s")
+    summary = get_short_summary(weather_info)
+
+    if summary:
+        if (summary.get('city') == ''):
+            print(f"City: No city")
+        else:
+            print(f"City: {summary.get('city')}")
+        print(f"Temperature: {summary.get('temp')} °C")
+        print(f"Description: {summary.get('description')}")
+        print(f"Wind speed: {summary.get('windSpeed')} m/s")
     else:
         print("Failed, please try again later")
+
+    # if weather_info:
+    #     print(f"City: {weather_info['name']}")
+    #     print(f"Temperature: {weather_info['main']['temp']} C degrees")
+    #     print(f"Description: {weather_info['weather'][0]['description'].capitalize()}")
+    #     print(f"Wind speed: {weather_info['wind']['speed']} m/s")
+    # else:
+    #     print("Failed, please try again later")
 
 def print_temp(weather_info):
     pass

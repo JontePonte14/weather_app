@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 load_dotenv()
 API_key = os.getenv("OPENWEATHER_API_KEY")
 
-#API_key = "fd9e57c5e47a438296a6f5251dc3bb92"
 base_url = "https://api.openweathermap.org/data/2.5/weather"
 
 # Fetch the weather info for the giving city
@@ -14,7 +13,10 @@ def get_weather_data(cityName=None, latitude=None, longitude=None):
     if (cityName):
         url = f"{base_url}?q={cityName}&appid={API_key}&units=metric"
     elif(longitude is not None and latitude is not None):
-        url = f"{base_url}?lon={longitude}&lat={latitude}&appid={API_key}&units=metric"
+        if -90 <= latitude <= 90 and -180 <= longitude <= 180:
+            url = f"{base_url}?lon={longitude}&lat={latitude}&appid={API_key}&units=metric"
+        else:
+            raise ValueError("Latitude and/or longitude is outside valid range")
     else:
         raise ValueError("You must provide either a city name or both longitude and latitude.")
     
