@@ -1,5 +1,5 @@
 # Weather App
-!(image.png)
+![Screenshot](image.png)
 
 A GUI-based weather application built with `tkinter`. It uses the [OpenWeatherMap API](https://openweathermap.org/api) to fetch real-time weather data from around the world.
 
