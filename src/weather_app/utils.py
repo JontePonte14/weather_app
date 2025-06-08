@@ -98,8 +98,47 @@ def print_downfall(weather_info):
         print("Failed, please try again later")
 
 def print_clouds(weather_info):
-    pass
+    cloudiness = get_clouds(weather_info)
+
+    if cloudiness is not None:
+        print(f"Cloud coverage: {cloudiness}%")
+    else:
+        print("Failed to retrieve cloud information.")
+
 
 def print_wind_info(weather_info):
-    pass
+    summary = get_wind_info(weather_info)
 
+    if summary:
+        print(f"Wind speed: {summary.get('speed')} m/s")
+        print(f"Direction: {summary.get('direction')}°")
+        gust = summary.get('gust')
+        if gust is not None:
+            print(f"Gusts: {gust} m/s")
+        else:
+            print("Gust data: not available")
+    else:
+        print("Failed to retrieve wind information.")
+
+
+def print_all_weather_info(weather_info):
+    if missing_data(weather_info):
+        print("No weather data available.")
+        return
+
+    print("===== Weather Summary =====")
+    print_short_summary(weather_info)
+
+    print("\n--- Temperature Details ---")
+    print_temp(weather_info)
+
+    print("\n--- Wind Details ---")
+    print_wind_info(weather_info)
+
+    print("\n--- Cloud Coverage ---")
+    print_clouds(weather_info)
+
+    print("\n--- Precipitation ---")
+    print_downfall(weather_info)
+
+    print("============================\n")
