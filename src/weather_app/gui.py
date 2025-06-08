@@ -1,10 +1,13 @@
 import tkinter as tk
+from weather_app.api import get_weather_data
+from weather_app.utils import print_short_summary
 
 def start_gui():
     root = tk.Tk()
     root.title("Weather App")
     root.geometry("600x300")
-    insert_data_boxes(root)
+    entries = insert_data_boxes(root)
+    buttons(root, entries)
 
     root.mainloop()
 
@@ -22,8 +25,48 @@ def insert_data_boxes(root):
     eLatitude.grid(row=4, column = 2)
     eLongitude.grid(row=5, column = 2)
 
-def buttons(root):
+    return {
+        "city" : eCity,
+        "lat" : eLatitude,
+        "lon" : eLongitude
+    }
+
+def buttons(root, entries):
+    buttonCity = tk.Button(root, text="Find weather for city", 
+                           command=lambda: handle_city_search(entries["city"])).grid(row = 6, column = 0 )
+    buttonCord = tk.Button(root, text="Find weather for coordinates", 
+                           command=lambda: handle_coords_search(entries["lat"], 
+                                                                entries["lon"])).grid(row = 7, column = 0)
+
+def handle_city_search(city_entry):
+    city = city_entry.get()
+    if not city:
+        print("No city entered")
+        return
+    print(f"Printing weather info for: {city}")
+    weather_info = get_weather_data(city)
+    if (weather_info):
+        print_short_summary(weather_info)
+    else:
+        print(f"No weather data found")
+    
+
+
+def handle_coords_search(lat_entry, lon_entry):
+    lat = float(lat_entry.get())
+    lon = float(lon_entry.get())
+    if not -90 <= lat <= 90 and -180 <= lon <= 180:
+        print("Invalid latitude and/or longitude")
+        return
+    
+    print(f'Printing weather info for lat: {lat}, lon: {lon}')
+    weather_info = get_weather_data(latitude=lat, longitude=lon)
+    if (weather_info):
+        print_short_summary(weather_info)
+    else:
+        print(f"No weather data found")
     pass
+
 
 def info_display(root):
     pass

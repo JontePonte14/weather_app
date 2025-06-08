@@ -23,7 +23,7 @@ def get_weather_data(cityName=None, latitude=None, longitude=None):
     response = requests.get(url)
 
     if (response.status_code == 200):
-        print(f"Success!")
+        print(f"Success! Found data.")
         weather_data = response.json()
         return weather_data
     else:
