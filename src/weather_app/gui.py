@@ -88,8 +88,9 @@ def handle_city_search(city_entry, root):
     print(f"Printing weather info for: {city}")
     weather_info = get_weather_data(city)
     if (weather_info):
-        view_short_summary(weather_info, root)
+        info_display(root, None, "clear")
         state["weather_data"] = weather_info
+        view_short_summary(weather_info, root)
     else:
         print(f"Error: No weather data found")
     
@@ -110,8 +111,9 @@ def handle_coords_search(lat_entry, lon_entry, root):
     print(f'Printing weather info for lat: {lat}, lon: {lon}')
     weather_info = get_weather_data(latitude=lat, longitude=lon)
     if (weather_info):
-        view_short_summary(weather_info, root)
+        info_display(root, None, "clear")
         state["weather_data"] = weather_info
+        view_short_summary(weather_info, root)
     else:
         print(f"Error: No weather data found")
 
@@ -151,9 +153,6 @@ def view_downfall(weather_info, root):
         print(f"Error: No weather data found")
 
 def info_display(root, info, option):
-    text_general = tk.Text(root, height=50, width=40)
-    text_info = tk.Text(root, height=50, width=40)
-
     if (option == "clear"):
         print("Clearing text boxes")
         ## clear text and returns
