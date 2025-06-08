@@ -36,32 +36,35 @@ def insert_data_boxes(root):
 def buttons(root, entries):
     # Buttons for checking city or coords weather
     buttonCity = tk.Button(root, text="Find weather for city", 
-                           command=lambda: handle_city_search(entries["city"]), width=20).grid(row = 7, column = 0)
+                           command=lambda: handle_city_search(entries["city"], root), width=20).grid(row = 7, column = 0)
     buttonCord = tk.Button(root, text="Find weather for coordinates", 
                            command=lambda: handle_coords_search(entries["lat"], 
-                                                                entries["lon"]),width=20).grid(row = 8, column = 0)
+                                                                entries["lon"], root),width=20).grid(row = 8, column = 0)
     # Buttons to change what information to display
     r = 9
     c = 3
     buttonSummary = tk.Button(root, text="Short summary", width=20, 
-                           command=lambda: view_short_summary(state["weather_data"]))
+                           command=lambda: view_short_summary(state["weather_data"], root))
     buttonSummary.grid(row=r, column=c)
 
     buttonTemp = tk.Button(root, text='Temperature', width=20, 
-                           command=lambda: view_temp(state["weather_data"]))
+                           command=lambda: view_temp(state["weather_data"], root))
     buttonTemp.grid(row=r+1, column=c)
 
     buttonWind = tk.Button(root, text='Wind', width=20, 
-                           command=lambda: view_wind(state["weather_data"]))
+                           command=lambda: view_wind(state["weather_data"], root))
     buttonWind.grid(row=r+2, column=c)
 
     buttonDownfall = tk.Button(root, text='Downfall', width=20, 
-                           command=lambda: view_downfall(state["weather_data"]))
+                           command=lambda: view_downfall(state["weather_data"], root))
     buttonDownfall.grid(row=r+3, column=c)
 
+    buttonClearText = tk.Button(root, text="Clear text", width=20,
+                            command=lambda: info_display(root, None, "clear"))
+    buttonClearText.grid(row=r+4, column=c)
 
 
-def handle_city_search(city_entry):
+def handle_city_search(city_entry, root):
     city = city_entry.get()
     if not city:
         print("Error: No city entered")
@@ -69,14 +72,14 @@ def handle_city_search(city_entry):
     print(f"Printing weather info for: {city}")
     weather_info = get_weather_data(city)
     if (weather_info):
-        print_short_summary(weather_info)
+        view_short_summary(weather_info, root)
         state["weather_data"] = weather_info
     else:
         print(f"Error: No weather data found")
     
 
 
-def handle_coords_search(lat_entry, lon_entry):
+def handle_coords_search(lat_entry, lon_entry, root):
     try:
         lat = float(lat_entry.get())
         lon = float(lon_entry.get())
@@ -91,41 +94,71 @@ def handle_coords_search(lat_entry, lon_entry):
     print(f'Printing weather info for lat: {lat}, lon: {lon}')
     weather_info = get_weather_data(latitude=lat, longitude=lon)
     if (weather_info):
-        print_short_summary(weather_info)
+        view_short_summary(weather_info, root)
         state["weather_data"] = weather_info
     else:
         print(f"Error: No weather data found")
 
-def view_short_summary(weather_info):
+def view_short_summary(weather_info, root):
     if (weather_info):
+        # Should also draw icon, since this will be called everytime for a new
+        # function
+
         print(f"Printing out short summary:")
+        info_display(root, get_short_summary(weather_info), "summary")
         print_short_summary(weather_info)
     else:
         print(f"Error: No weather data found")
 
-def view_temp(weather_info):
+def view_temp(weather_info, root):
     if (weather_info):
         print(f"Printing temperature info: ")
+        info_display(root, get_temp(weather_info), "temp")
         print_temp(weather_info)
     else:
         print(f"Error: No weather data found")
 
-def view_wind(weather_info):
+def view_wind(weather_info, root):
     if (weather_info):
-        print(f"Printing windo info: ")
+        print(f"Printing wind info: ")
+        info_display(root, get_wind_info(weather_info), "wind")
         print_wind_info(weather_info)
     else:
         print(f"Error: No weather data found")
 
-def view_downfall(weather_info):
+def view_downfall(weather_info, root):
     if (weather_info):
         print(f"Printing downfall info: ")
+        info_display(root, get_downfall(weather_info), "downfall")
         print_downfall(weather_info)
     else:
         print(f"Error: No weather data found")
 
-def info_display(root):
-    pass
+def info_display(root, info, option):
+    if (option == "clear"):
+        ## clear text and returns
+        return
+    # Rest of the options 
+    if (state["weather_data"]):
+        general_info = get_general_info(state["weather_data"])
+        # Draw the following always
+        # Country
+        # City 
+        # Coordinates
+
+        if (option == "summary"):
+            return
+        elif (option == "temp"):
+            return
+        elif (option == "wind"):
+            return
+        elif (option == "downfall"):
+            return
+        else:
+            print(f'Error: No valid option')
+            return 
+    else:
+        print(f"Error: No weather data found")
 
 def error_messeage(root):
     pass
