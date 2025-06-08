@@ -7,7 +7,7 @@ state = {"weather_data": None}
 def start_gui():
     root = tk.Tk()
     root.title("Weather App")
-    root.geometry("800x300")
+    root.geometry("800x400")
     entries = insert_data_boxes(root)
     buttons(root, entries)
 
@@ -41,19 +41,22 @@ def buttons(root, entries):
                            command=lambda: handle_coords_search(entries["lat"], 
                                                                 entries["lon"]),width=20).grid(row = 8, column = 0)
     # Buttons to change what information to display
-    r = 8
+    r = 9
     c = 3
-    buttonSummary = tk.Button(root, text="Short summary", width=20)
+    buttonSummary = tk.Button(root, text="Short summary", width=20, 
+                           command=lambda: view_short_summary(state["weather_data"]))
     buttonSummary.grid(row=r, column=c)
 
     buttonTemp = tk.Button(root, text='Temperature', width=20, 
                            command=lambda: view_temp(state["weather_data"]))
     buttonTemp.grid(row=r+1, column=c)
 
-    buttonWind = tk.Button(root, text='Wind', width=20)
+    buttonWind = tk.Button(root, text='Wind', width=20, 
+                           command=lambda: view_wind(state["weather_data"]))
     buttonWind.grid(row=r+2, column=c)
 
-    buttonDownfall = tk.Button(root, text='Downfall', width=20)
+    buttonDownfall = tk.Button(root, text='Downfall', width=20, 
+                           command=lambda: view_downfall(state["weather_data"]))
     buttonDownfall.grid(row=r+3, column=c)
 
 
@@ -93,10 +96,31 @@ def handle_coords_search(lat_entry, lon_entry):
     else:
         print(f"Error: No weather data found")
 
+def view_short_summary(weather_info):
+    if (weather_info):
+        print(f"Printing out short summary:")
+        print_short_summary(weather_info)
+    else:
+        print(f"Error: No weather data found")
+
 def view_temp(weather_info):
     if (weather_info):
         print(f"Printing temperature info: ")
         print_temp(weather_info)
+    else:
+        print(f"Error: No weather data found")
+
+def view_wind(weather_info):
+    if (weather_info):
+        print(f"Printing windo info: ")
+        print_wind_info(weather_info)
+    else:
+        print(f"Error: No weather data found")
+
+def view_downfall(weather_info):
+    if (weather_info):
+        print(f"Printing downfall info: ")
+        print_downfall(weather_info)
     else:
         print(f"Error: No weather data found")
 
