@@ -19,7 +19,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "weather-app=main:main"
+            "weather-app=weather_app.main:main"
         ]
     },
     include_package_data=True,
